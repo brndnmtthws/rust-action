@@ -17,6 +17,36 @@ Out of the box features include:
   - Sccache (not enabled by default)
 - 😎 Good vibes
 
+## Quickstart
+
+```yaml
+name: Build & test
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Rust toolchain with caching
+        uses: brndnmtthws/rust-action@v1
+      - run: cargo build
+      - run: cargo test
+        env:
+          RUST_BACKTRACE: 1
+```
+
 ## About caching
 
 By default, this action caches the Cargo registry, and the `target/` directory
