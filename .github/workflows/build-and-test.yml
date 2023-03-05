@@ -1,0 +1,42 @@
+name: Build and test
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: npm
+      - run: npm ci
+      - run: npm run format-check
+        if: ${{ runner.os != 'Windows' }}
+      - run: npm run lint
+      - run: npm run build
+      - run: npm run test
+      - run: npm audit --audit-level=high
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          packages: sccache cargo-tarpaulin

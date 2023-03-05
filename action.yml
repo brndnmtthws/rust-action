@@ -1,0 +1,28 @@
+name: brndnmtthws/rust-action
+description: |
+  All-in-one Rust action for linting, building, testing, and producing coverage
+  reports.
+author: Brenden Matthews <github@brenden.brndn.io>
+branding:
+  icon: box
+  color: purple
+
+inputs:
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: brndnmtthws/rust-action-rustup@v1
+      with:
+        toolchain: ${{ inputs.toolchain }}
+        profile: minimal
+        components: |
+          rustfmt
+          clippy
+    - uses: brndnmtthws/rust-action-cargo-binstall@v1
+      with:
+        packages: |
+          cargo-tarpaulin
+          sccache
+    - shell: bash
+      run: cargo test

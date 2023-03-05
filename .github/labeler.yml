@@ -1,0 +1,11 @@
+sources:
+  - src/*
+  - src/**/*
+
+tests:
+  - tests/**/*
+  - tests/*
+
+gh-actions:
+  - .github/workflows/*
+  - .github/workflows/**/*

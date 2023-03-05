@@ -1,0 +1,5 @@
+pre-commit:
+  commands:
+    prettier:
+      run: npx prettier {staged_files} && git add {staged_files}
+      glob: '*.{yml,yaml,json,md}'
