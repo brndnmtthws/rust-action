@@ -19,7 +19,6 @@ inputs:
   cargo-packages:
     default: |
       cargo-tarpaulin
-      sccache
     description: The default set of cargo packages to install
   disable-cargo-registry-cache:
     description: If set to 'true', the Cargo registry cache will not be enabled.
@@ -104,8 +103,13 @@ runs:
       if: ${{ inputs.enable-sccache == 'true' }}
     - shell: bash
       run: echo "CARGO_INCREMENTAL=0" >> $GITHUB_ENV
-      if: ${{ inputs.enable-sccache != 'true' }}
+      if: ${{ inputs.enable-sccache == 'true' }}
     - uses: brndnmtthws/rust-action-cargo-binstall@v1
       name: Install Cargo packages
       with:
         packages: ${{ inputs.cargo-packages }}
+    - uses: brndnmtthws/rust-action-cargo-binstall@v1
+      name: Install sccache
+      if: ${{ inputs.enable-sccache == 'true' }}
+      with:
+        packages: sccache

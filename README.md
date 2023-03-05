@@ -53,7 +53,7 @@ This action also includes [sccache](https://github.com/mozilla/sccache) for
 caching build outputs, which provides another way to cache builds, instead of
 caching `target/` and relying on Rust's [incremental
 builds](https://blog.rust-lang.org/2016/09/08/incremental.html). The sccache
-package is installed by default, but its usage is not enabled, and can be
+package is not installed by default, and its usage is not enabled, but it can be
 enabled with `enable-sccache: 'true'`.
 
 It's recommended that you benchmark caching with sccache versus target caching,
@@ -71,7 +71,7 @@ You can disable all of the built-in caching if you choose, refer to the
 | ----------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `toolchain`                         | Specify a Rust toolchain.                                       | `stable`                                                                                               |
 | `components`                        | Rust components to install along with the toolchain.            | `clippy, rustfmt`                                                                                      |
-| `cargo-packages`                    | The default set of cargo packages to install                    | `cargo-tarpaulin, sccache`                                                                             |
+| `cargo-packages`                    | The default set of cargo packages to install                    | `cargo-tarpaulin`                                                                                      |
 | `disable-cargo-registry-cache`      | If set to 'true', the Cargo registry cache will not be enabled. | unset                                                                                                  |
 | `disable-cargo-target-cache`        | If set to 'true', the Cargo target cache will not be enabled.   | unset                                                                                                  |
 | `enable-sccache`                    | If set to 'true', sccache will not be enabled.                  | unset                                                                                                  |
