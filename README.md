@@ -98,7 +98,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup ${{ matrix.rust-toolchain }} Rust toolchain with caching
-        uses: brndnmtthws/rust-action@main
+        uses: brndnmtthws/rust-action@v1
         with:
           toolchain: ${{ matrix.rust-toolchain }}
       - run: cargo build --features ${{ matrix.features }}
@@ -152,7 +152,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Setup nightly Rust toolchain with caching
-        uses: brndnmtthws/rust-action@main
+        uses: brndnmtthws/rust-action@v1
         with:
           toolchain: nightly
       - run: cargo tarpaulin --features nightly
