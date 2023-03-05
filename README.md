@@ -182,7 +182,7 @@ jobs:
         uses: brndnmtthws/rust-action@v1
         with:
           toolchain: nightly
-      - run: cargo tarpaulin --features nightly
+      - run: cargo tarpaulin --features nightly --out Xml
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v3
         with:
