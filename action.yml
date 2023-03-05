@@ -1,7 +1,7 @@
 name: brndnmtthws/rust-action
 description: |
-  All-in-one Rust action for linting, building, testing, and producing coverage
-  reports.
+  All-in-one Rust action with caching for linting, building, testing, and
+  producing coverage reports.
 author: Brenden Matthews <github@brenden.brndn.io>
 branding:
   icon: box
