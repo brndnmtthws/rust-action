@@ -1,0 +1,26 @@
+name: Test action
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+      - run: cargo build
+        working-directory: test-project
+      - run: cargo test
+        working-directory: test-project
