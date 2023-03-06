@@ -26,46 +26,13 @@ inputs:
     description: If set to 'true', the Cargo target cache will not be enabled.
   enable-sccache:
     description: If set to 'true', sccache will be enabled.
-  cargo-registry-cache-key:
-    default: |
-      cargo-registry-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
-    description: The Cargo registry cache key.
-  cargo-registry-cache-restore-keys:
-    default: |
-      cargo-registry-${{ runner.os }}-${{ runner.arch }}-
-      cargo-registry-${{ runner.os }}-
-      cargo-registry-
-    description: The Cargo registry cache restoration keys.
-  cargo-target-cache-key:
-    default: |
-      cargo-target-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
-    description: The Cargo target cache key.
-  cargo-target-cache-restore-keys:
-    default: |
-      cargo-target-${{ runner.os }}-${{ runner.arch }}-
-      cargo-target-${{ runner.os }}-
-      cargo-target-
-    description: The Cargo target cache restoration keys.
-  cargo-target-cache-path:
-    default: '**/target/*'
-    description: |
-      The path glob for the Cargo target dir.
-  sccache-cache-key:
-    default: |
-      sccache-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
-    description: The sccache local file cache key.
-  sccache-cache-restore-keys:
-    default: |
-      sccache-${{ runner.os }}-${{ runner.arch }}-
-      sccache-${{ runner.os }}-
-      sccache-
-    description: The sccache local file cache restoration keys.
 
 runs:
   using: 'composite'
   steps:
     - uses: brndnmtthws/rust-action-rustup@v1
       name: Install toolchain
+      id: rustup
       with:
         toolchain: ${{ inputs.toolchain }}
         profile: minimal
@@ -76,23 +43,33 @@ runs:
       name: Cache Cargo registry
       if: ${{ inputs.disable-cargo-registry-cache != 'true' }}
       with:
-        key: ${{ inputs.cargo-registry-cache-key }}
-        restore-keys: ${{ inputs.cargo-registry-cache-restore-keys }}
+        key: cargo-registry-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+        restore-keys: |
+          cargo-registry-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-
+          cargo-registry-${{ steps.rustup.outputs.toolchain }}-
+          cargo-registry-
         path: |
           ~/.cargo/registry
     - uses: actions/cache@v3
       name: Cache Cargo target
       if: ${{ inputs.disable-cargo-target-cache != 'true' }}
       with:
-        key: ${{ inputs.cargo-target-cache-key }}
-        restore-keys: ${{ inputs.cargo-target-cache-restore-keys }}
-        path: ${{ inputs.cargo-target-cache-path }}
+        key: cargo-target-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+        restore-keys: |
+          cargo-target-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-
+          cargo-target-${{ steps.rustup.outputs.toolchain }}-
+          cargo-target-
+        path: |
+          **/target/*
     - uses: actions/cache@v3
       name: Cache sccache local files
       if: ${{ inputs.enable-sccache == 'true' }}
       with:
-        key: ${{ inputs.sccache-cache-key }}
-        restore-keys: ${{ inputs.sccache-cache-restore-keys }}
+        key: sccache-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+        restore-keys: |
+          sccache-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-
+          sccache-${{ steps.rustup.outputs.toolchain }}-
+          sccache-
         path: |
           ~/.sccache
     - shell: bash

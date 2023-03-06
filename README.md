@@ -67,21 +67,14 @@ You can disable all of the built-in caching if you choose, refer to the
 
 ## Inputs
 
-| Input                               | Description                                                     | Default                                                                                                |
-| ----------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `toolchain`                         | Specify a Rust toolchain.                                       | `stable`                                                                                               |
-| `components`                        | Rust components to install along with the toolchain.            | `clippy, rustfmt`                                                                                      |
-| `cargo-packages`                    | The default set of cargo packages to install                    | `cargo-tarpaulin`                                                                                      |
-| `disable-cargo-registry-cache`      | If set to 'true', the Cargo registry cache will not be enabled. | unset                                                                                                  |
-| `disable-cargo-target-cache`        | If set to 'true', the Cargo target cache will not be enabled.   | unset                                                                                                  |
-| `enable-sccache`                    | If set to 'true', sccache will not be enabled.                  | unset                                                                                                  |
-| `cargo-registry-cache-key`          | The Cargo registry cache key.                                   | `cargo-registry-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/Cargo.lock') }}`                 |
-| `cargo-registry-cache-restore-keys` | The Cargo registry cache restoration keys.                      | `cargo-registry-${{ runner.os }}-${{ runner.arch }}- cargo-registry-${{ runner.os }}- cargo-registry-` |
-| `cargo-target-cache-key`            | The Cargo target cache key.                                     | `cargo-target-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/Cargo.lock') }}`                   |
-| `cargo-target-cache-restore-keys`   | The Cargo target cache restoration keys.                        | `cargo-target-${{ runner.os }}-${{ runner.arch }}- cargo-target-${{ runner.os }}- cargo-target-`       |
-| `cargo-target-cache-path`           | The path glob for the Cargo target dir.                         | `**/target/*`                                                                                          |
-| `sccache-cache-key`                 | The sccache local file cache key.                               | `sccache-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/Cargo.lock') }}`                        |
-| `sccache-cache-restore-keys`        | The sccache local file cache restoration keys.                  | `sccache-${{ runner.os }}-${{ runner.arch }}- sccache-${{ runner.os }}- sccache-`                      |
+| Input                          | Description                                                     | Default           |
+| ------------------------------ | --------------------------------------------------------------- | ----------------- |
+| `toolchain`                    | Specify a Rust toolchain.                                       | `stable`          |
+| `components`                   | Rust components to install along with the toolchain.            | `clippy, rustfmt` |
+| `cargo-packages`               | The default set of cargo packages to install                    | `cargo-tarpaulin` |
+| `disable-cargo-registry-cache` | If set to 'true', the Cargo registry cache will not be enabled. | unset             |
+| `disable-cargo-target-cache`   | If set to 'true', the Cargo target cache will not be enabled.   | unset             |
+| `enable-sccache`               | If set to 'true', sccache will not be enabled.                  | unset             |
 
 ## Recipes
 
