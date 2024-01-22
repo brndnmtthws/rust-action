@@ -39,7 +39,7 @@ runs:
         components: |
           rustfmt
           clippy
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       name: Cache Cargo registry
       if: ${{ inputs.disable-cargo-registry-cache != 'true' }}
       with:
@@ -50,7 +50,7 @@ runs:
           cargo-registry-
         path: |
           ~/.cargo/registry
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       name: Cache Cargo target
       if: ${{ inputs.disable-cargo-target-cache != 'true' }}
       with:
@@ -61,7 +61,7 @@ runs:
           cargo-target-
         path: |
           **/target/*
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       name: Cache sccache local files
       if: ${{ inputs.enable-sccache == 'true' }}
       with:
