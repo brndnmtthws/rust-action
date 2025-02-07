@@ -74,7 +74,7 @@ You can disable all of the built-in caching if you choose, refer to the
 | `cargo-packages`               | The default set of cargo packages to install                    | `cargo-tarpaulin` |
 | `disable-cargo-registry-cache` | If set to 'true', the Cargo registry cache will not be enabled. | unset             |
 | `disable-cargo-target-cache`   | If set to 'true', the Cargo target cache will not be enabled.   | unset             |
-| `enable-sccache`               | If set to 'true', sccache will not be enabled.                  | unset             |
+| `enable-sccache`               | If set to 'true', sccache will be enabled.                      | unset             |
 
 ## Recipes
 
