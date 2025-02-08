@@ -72,6 +72,11 @@ runs:
           sccache-
         path: |
           ~/.sccache
+    - uses: brndnmtthws/rust-action-cargo-binstall@v1
+      name: Install sccache
+      if: ${{ inputs.enable-sccache == 'true' }}
+      with:
+        packages: sccache
     - shell: bash
       run: echo "SCCACHE_DIR=$HOME/.sccache" >> $GITHUB_ENV
       if: ${{ inputs.enable-sccache == 'true' }}
@@ -85,8 +90,3 @@ runs:
       name: Install Cargo packages
       with:
         packages: ${{ inputs.cargo-packages }}
-    - uses: brndnmtthws/rust-action-cargo-binstall@v1
-      name: Install sccache
-      if: ${{ inputs.enable-sccache == 'true' }}
-      with:
-        packages: sccache
