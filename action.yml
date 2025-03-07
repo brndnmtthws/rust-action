@@ -66,7 +66,8 @@ runs:
         echo "target-cache-key=${TARGET_CACHE_KEY:DEFAULT_TARGET_CACHE_KEY" >> $GITHUB_OUTPUT
 
         TARGET_CACHE_RESTORE_KEYS="${{inputs.target-cache-restore-keys}}"
-        DEFAULT_TARGET_CACHE_RESTORE_KEYS="cargo-target-${{runner.os}}-${{inputs.toolchain}}-\ncargo-target-${{runner.os}}-"
+        DEFAULT_TARGET_CACHE_RESTORE_KEYS="cargo-target-${{runner.os}}-${{inputs.toolchain}}-
+        cargo-target-${{runner.os}}-"
         echo "target-cache-restore-keys=${TARGET_CACHE_RESTORE_KEYS:DEFAULT_TARGET_CACHE_RESTORE_KEYS}" >> $GITHUB_OUTPUT
 
         REGISTRY_CACHE_KEY="${{inputs.registry-cache-key}}"
@@ -74,7 +75,8 @@ runs:
         echo "registry-cache-key=${REGISTRY_CACHE_KEY:DEFAULT_REGISTRY_CACHE_KEY}" >> $GITHUB_OUTPUT
 
         REGISTRY_CACHE_RESTORE_KEYS="${{ inputs.registry-cache-restore-keys }}"
-        DEFAULT_REGISTRY_CACHE_RESTORE_KEYS="cargo-registry-${{inputs.toolchain}}-\ncargo-registry-"
+        DEFAULT_REGISTRY_CACHE_RESTORE_KEYS="cargo-registry-${{inputs.toolchain}}-
+        cargo-registry-"
         echo "registry-cache-restore-keys=${REGISTRY_CACHE_RESTORE_KEYS:DEFAULT_REGISTRY_CACHE_RESTORE_KEYS}" >> $GITHUB_OUTPUT
 
         SCCACHE_CACHE_KEY="${{inputs.sccache-cache-key}}"
@@ -82,7 +84,8 @@ runs:
         echo "sccache-cache-key=${SCCACHE_CACHE_KEY:DEFAULT_SCCACHE_CACHE_KEY}" >> $GITHUB_OUTPUT
 
         SCCACHE_CACHE_RESTORE_KEYS="${{inputs.sccache-cache-restore-keys}}"
-        DEFAULT_SCCACHE_CACHE_RESTORE_KEYS="sccache-${{runner.os}}-${{inputs.toolchain}}-\nsccache-${{runner.os}}-"
+        DEFAULT_SCCACHE_CACHE_RESTORE_KEYS="sccache-${{runner.os}}-${{inputs.toolchain}}-
+        sccache-${{runner.os}}-"
         echo "sccache-cache-restore-keys=${SCCACHE_CACHE_RESTORE_KEYS:DEFAULT_SCCACHE_CACHE_RESTORE_KEYS}" >> $GITHUB_OUTPUT
     - uses: actions/cache@v4
       name: Cache Cargo registry
