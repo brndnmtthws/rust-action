@@ -76,33 +76,24 @@ runs:
       name: Cache Cargo registry
       if: ${{ inputs.disable-cargo-registry-cache != 'true' }}
       with:
-        key: cargo-registry-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
-        restore-keys: |
-          cargo-registry-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-
-          cargo-registry-${{ steps.rustup.outputs.toolchain }}-
-          cargo-registry-
+        key: ${{ inputs.registry-cache-key }}
+        restore-keys: ${{ inputs.registry-cache-restore-keys }}
         path: |
           ~/.cargo/registry
     - uses: actions/cache@v4
       name: Cache Cargo target
       if: ${{ inputs.disable-cargo-target-cache != 'true' }}
       with:
-        key: cargo-target-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
-        restore-keys: |
-          cargo-target-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-
-          cargo-target-${{ steps.rustup.outputs.toolchain }}-
-          cargo-target-
+        key: ${{ inputs.target-cache-key }}
+        restore-keys: ${{ inputs.target-cache-restore-keys }}
         path: |
           **/target/*
     - uses: actions/cache@v4
       name: Cache sccache local files
       if: ${{ inputs.enable-sccache == 'true' }}
       with:
-        key: sccache-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
-        restore-keys: |
-          sccache-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-
-          sccache-${{ steps.rustup.outputs.toolchain }}-
-          sccache-
+        key: ${{ inputs.sccache-cache-key }}
+        restore-keys: ${{ inputs.sccache-cache-restore-keys }}
         path: |
           ~/.sccache
     - uses: brndnmtthws/rust-action-cargo-binstall@v1
