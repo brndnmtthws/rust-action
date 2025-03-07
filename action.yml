@@ -61,18 +61,23 @@ runs:
       id: cache-keys
       shell: bash
       run: |
-        TARGET_CACHE_KEY="${{ inputs.target-cache-key }}"
-        echo "target-cache-key=${TARGET_CACHE_KEY:cargo-target-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}" >> $GITHUB_OUTPUT
-        TARGET_CACHE_RESTORE_KEYS="${{ inputs.target-cache-restore-keys }}"
-        echo "target-cache-restore-keys=${TARGET_CACHE_RESTORE_KEYS:cargo-target-${{runner.os}}-${{ inputs.toolchain }}-\ncargo-target-${{runner.os}}-}" >> $GITHUB_OUTPUT
-        REGISTRY_CACHE_KEY="${{ inputs.registry-cache-key }}"
+        TARGET_CACHE_KEY="${{inputs.target-cache-key}}"
+        echo "target-cache-key=${TARGET_CACHE_KEY:cargo-target-${{runner.os}}-${{inputs.toolchain}}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}" >> $GITHUB_OUTPUT
+
+        TARGET_CACHE_RESTORE_KEYS="${{inputs.target-cache-restore-keys}}"
+        echo "target-cache-restore-keys=${TARGET_CACHE_RESTORE_KEYS:cargo-target-${{runner.os}}-${{inputs.toolchain}}-\ncargo-target-${{runner.os}}-}" >> $GITHUB_OUTPUT
+
+        REGISTRY_CACHE_KEY="${{inputs.registry-cache-key}}"
         echo "registry-cache-key=${REGISTRY_CACHE_KEY:cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}}" >> $GITHUB_OUTPUT
+
         REGISTRY_CACHE_RESTORE_KEYS="${{ inputs.registry-cache-restore-keys }}"
-        echo "registry-cache-restore-keys=${REGISTRY_CACHE_RESTORE_KEYS:cargo-registry-${{ inputs.toolchain }}-\ncargo-registry-}" >> $GITHUB_OUTPUT
-        SCCACHE_CACHE_KEY="${{ inputs.sccache-cache-key }}"
-        echo "sccache-cache-key=${SCCACHE_CACHE_KEY:sccache-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}" >> $GITHUB_OUTPUT
-        SCCACHE_CACHE_RESTORE_KEYS="${{ inputs.sccache-cache-restore-keys }}"
-        echo "sccache-cache-restore-keys=${SCCACHE_CACHE_RESTORE_KEYS:sccache-${{runner.os}}-${{ inputs.toolchain }}-\nsccache-${{runner.os}}-}" >> $GITHUB_OUTPUT
+        echo "registry-cache-restore-keys=${REGISTRY_CACHE_RESTORE_KEYS:cargo-registry-${{inputs.toolchain}}-\ncargo-registry-}" >> $GITHUB_OUTPUT
+
+        SCCACHE_CACHE_KEY="${{inputs.sccache-cache-key}}"
+        echo "sccache-cache-key=${SCCACHE_CACHE_KEY:sccache-${{runner.os}}-${{inputs.toolchain}}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}" >> $GITHUB_OUTPUT
+
+        SCCACHE_CACHE_RESTORE_KEYS="${{inputs.sccache-cache-restore-keys}}"
+        echo "sccache-cache-restore-keys=${SCCACHE_CACHE_RESTORE_KEYS:sccache-${{runner.os}}-${{inputs.toolchain}}-\nsccache-${{runner.os}}-}" >> $GITHUB_OUTPUT
     - uses: actions/cache@v4
       name: Cache Cargo registry
       if: ${{ inputs.disable-cargo-registry-cache != 'true' }}
