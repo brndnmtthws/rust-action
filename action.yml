@@ -135,5 +135,6 @@ runs:
       if: ${{ inputs.enable-sccache == 'true' }}
     - uses: brndnmtthws/rust-action-cargo-binstall@v1
       name: Install Cargo packages
+      if: ${{ inputs.cargo-packages != '' }}
       with:
         packages: ${{ inputs.cargo-packages }}
