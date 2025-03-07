@@ -28,34 +28,22 @@ inputs:
     description: If set to 'true', sccache will be enabled.
   target-cache-key:
     description: The cache key to use for caching the target dirs.
-    required: true
-    default: cargo-target-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+    required: false
   target-cache-restore-keys:
     description: The cache restore keys to use for caching the target dirs.
-    required: true
-    default: |
-      cargo-target-${{runner.os}}-${{ inputs.toolchain }}
-      cargo-target-${{runner.os}}-
+    required: false
   registry-cache-key:
     description: The cache key to use for caching the cargo registry.
-    required: true
-    default: cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+    required: false
   registry-cache-restore-keys:
     description: The cache restore keys to use for caching the cargo registry.
-    required: true
-    default: |
-      cargo-registry-${{ inputs.toolchain }}-
-      cargo-registry-
+    required: false
   sccache-cache-key:
     description: The cache key to use for caching sccache.
-    required: true
-    default: sccache-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+    required: false
   sccache-cache-restore-keys:
     description: The cache restore keys to use for caching sccache.
-    required: true
-    default: |
-      sccache-${{runner.os}}-${{ inputs.toolchain }}-
-      sccache-${{runner.os}}-
+    required: false
 
 runs:
   using: 'composite'
@@ -69,28 +57,44 @@ runs:
         components: |
           rustfmt
           clippy
+    - name: Set cache keys
+      id: cache-keys
+      shell: bash
+      run: |
+        TARGET_CACHE_KEY="${{ inputs.target-cache-key }}"
+        echo "target-cache-key=${TARGET_CACHE_KEY:cargo-target-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}" >> $GITHUB_OUTPUT
+        TARGET_CACHE_RESTORE_KEYS="${{ inputs.target-cache-restore-keys }}"
+        echo "target-cache-restore-keys=${TARGET_CACHE_RESTORE_KEYS:cargo-target-${{runner.os}}-${{ inputs.toolchain }}-\ncargo-target-${{runner.os}}-}" >> $GITHUB_OUTPUT
+        REGISTRY_CACHE_KEY="${{ inputs.registry-cache-key }}"
+        echo "registry-cache-key=${REGISTRY_CACHE_KEY:cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}}" >> $GITHUB_OUTPUT
+        REGISTRY_CACHE_RESTORE_KEYS="${{ inputs.registry-cache-restore-keys }}"
+        echo "registry-cache-restore-keys=${REGISTRY_CACHE_RESTORE_KEYS:cargo-registry-${{ inputs.toolchain }}-\ncargo-registry-}" >> $GITHUB_OUTPUT
+        SCCACHE_CACHE_KEY="${{ inputs.sccache-cache-key }}"
+        echo "sccache-cache-key=${SCCACHE_CACHE_KEY:sccache-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}" >> $GITHUB_OUTPUT
+        SCCACHE_CACHE_RESTORE_KEYS="${{ inputs.sccache-cache-restore-keys }}"
+        echo "sccache-cache-restore-keys=${SCCACHE_CACHE_RESTORE_KEYS:sccache-${{runner.os}}-${{ inputs.toolchain }}-\nsccache-${{runner.os}}-}" >> $GITHUB_OUTPUT
     - uses: actions/cache@v4
       name: Cache Cargo registry
       if: ${{ inputs.disable-cargo-registry-cache != 'true' }}
       with:
-        key: ${{ inputs.registry-cache-key }}
-        restore-keys: ${{ inputs.registry-cache-restore-keys }}
+        key: ${{ steps.cache-keys.outputs.registry-cache-restore-keys }}
+        restore-keys: ${{ steps.cache-keys.outputs.registry-cache-restore-keys
         path: |
           ~/.cargo/registry
     - uses: actions/cache@v4
       name: Cache Cargo target
       if: ${{ inputs.disable-cargo-target-cache != 'true' }}
       with:
-        key: ${{ inputs.target-cache-key }}
-        restore-keys: ${{ inputs.target-cache-restore-keys }}
+        key: ${{ steps.cache-key.outputs.target-cache-key }}
+        restore-keys: ${{ steps.cache-key.outputs.target-cache-restore-keys }}
         path: |
           **/target/*
     - uses: actions/cache@v4
       name: Cache sccache local files
       if: ${{ inputs.enable-sccache == 'true' }}
       with:
-        key: ${{ inputs.sccache-cache-key }}
-        restore-keys: ${{ inputs.sccache-cache-restore-keys }}
+        key: ${{ steps.cache-keys.outputs.sccache-cache-key }}
+        restore-keys: ${{ steps.cache-keys.outputs.sccache-cache-restore-keys }}
         path: |
           ~/.sccache
     - uses: brndnmtthws/rust-action-cargo-binstall@v1

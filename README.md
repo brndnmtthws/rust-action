@@ -80,7 +80,7 @@ You can disable all of the built-in caching if you choose, refer to the
 | `registry-cache-key` | The cache key to use for caching the cargo registry. | `cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
 | `registry-cache-restore-keys` | The cache restore keys to use for caching the cargo registry. | `cargo-registry-${{ inputs.toolchain }}- cargo-registry-` |
 | `sccache-cache-key` | The cache key to use for caching sccache. | `sccache-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
-| `sccache-cache-restore-keys` | The cache restore keys to use for caching sccache. | `sccache-${{runner.os}}-${{ inputs.toolchain }}- sccache-${{runner.os}}-` |
+| `sccache-cache-restore-keys` | The cache restore keys to use for caching sccache. | <code>sccache-\${{runner.os}}-\${{ inputs.toolchain }}-<br />sccache-\${{runner.os}}-</code> |
 
 ## Recipes
 
