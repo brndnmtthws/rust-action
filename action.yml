@@ -62,11 +62,12 @@ runs:
       shell: bash
       run: |
         TARGET_CACHE_KEY="${{inputs.target-cache-key}}"
-        DEFAULT_TARGET_CACHE_KEY="cargo-target-${{runner.os}}-${{inputs.toolchain}}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}"
+        DEFAULT_TARGET_CACHE_KEY="cargo-target-${{runner.os}}-${{runner.arch}}-${{inputs.toolchain}}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}"
         echo "target-cache-key=${TARGET_CACHE_KEY:-$DEFAULT_TARGET_CACHE_KEY}" >> $GITHUB_OUTPUT
 
         TARGET_CACHE_RESTORE_KEYS="${{inputs.target-cache-restore-keys}}"
-        DEFAULT_TARGET_CACHE_RESTORE_KEYS="cargo-target-${{runner.os}}-${{inputs.toolchain}}-
+        DEFAULT_TARGET_CACHE_RESTORE_KEYS="cargo-target-${{runner.os}}-${{runner.arch}}-${{inputs.toolchain}}-
+        cargo-target-${{runner.os}}-${{runner.arch}}-
         cargo-target-${{runner.os}}-"
         echo "target-cache-restore-keys<<EOF" >> $GITHUB_OUTPUT
         echo "${TARGET_CACHE_RESTORE_KEYS:-$DEFAULT_TARGET_CACHE_RESTORE_KEYS}" >> $GITHUB_OUTPUT
@@ -84,11 +85,12 @@ runs:
         echo "EOF" >> $GITHUB_OUTPUT
 
         SCCACHE_CACHE_KEY="${{inputs.sccache-cache-key}}"
-        DEFAULT_SCCACHE_CACHE_KEY="sccache-${{runner.os}}-${{inputs.toolchain}}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}"
+        DEFAULT_SCCACHE_CACHE_KEY="sccache-${{runner.os}}-${{runner.arch}}-${{inputs.toolchain}}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}"
         echo "sccache-cache-key=${SCCACHE_CACHE_KEY:-$DEFAULT_SCCACHE_CACHE_KEY}" >> $GITHUB_OUTPUT
 
         SCCACHE_CACHE_RESTORE_KEYS="${{inputs.sccache-cache-restore-keys}}"
         DEFAULT_SCCACHE_CACHE_RESTORE_KEYS="sccache-${{runner.os}}-${{inputs.toolchain}}-
+        sccache-${{runner.os}}-${{runner.arch}}-
         sccache-${{runner.os}}-"
         echo "sccache-cache-restore-keys<<EOF" >> $GITHUB_OUTPUT
         echo "${SCCACHE_CACHE_RESTORE_KEYS:-$DEFAULT_SCCACHE_CACHE_RESTORE_KEYS}" >> $GITHUB_OUTPUT

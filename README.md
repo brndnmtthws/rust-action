@@ -75,12 +75,12 @@ You can disable all of the built-in caching if you choose, refer to the
 | `disable-cargo-registry-cache` | If set to 'true', the Cargo registry cache will not be enabled. | unset |
 | `disable-cargo-target-cache` | If set to 'true', the Cargo target cache will not be enabled. | unset |
 | `enable-sccache` | If set to 'true', sccache will be enabled. | unset |
-| `target-cache-key` | The cache key to use for caching the target dirs. | `cargo-target-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
-| `target-cache-restore-keys` | The cache restore keys to use for caching the target dirs. | <code>cargo-target-\${{runner.os}}-\${{ inputs.toolchain }}<br />cargo-target-\${{runner.os}}-</code> |
+| `target-cache-key` | The cache key to use for caching the target dirs. | `cargo-target-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
+| `target-cache-restore-keys` | The cache restore keys to use for caching the target dirs. | <code>cargo-target-\${{runner.os}}-\${{runner.arch}}-\${{ inputs.toolchain }}<br />cargo-target-\${{runner.os}}-\${{runner.arch}}-<br />cargo-target-\${{runner.os}}-</code> |
 | `registry-cache-key` | The cache key to use for caching the cargo registry. | `cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
 | `registry-cache-restore-keys` | The cache restore keys to use for caching the cargo registry. | <code>cargo-registry-\${{ inputs.toolchain }}-<br />cargo-registry-</code> |
-| `sccache-cache-key` | The cache key to use for caching sccache. | `sccache-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
-| `sccache-cache-restore-keys` | The cache restore keys to use for caching sccache. | <code>sccache-\${{runner.os}}-\${{ inputs.toolchain }}-<br />sccache-\${{runner.os}}-</code> |
+| `sccache-cache-key` | The cache key to use for caching sccache. | `sccache-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
+| `sccache-cache-restore-keys` | The cache restore keys to use for caching sccache. | <code>sccache-\${{runner.os}}-\${{runner.arch}}-\${{ inputs.toolchain }}-<br />sccache-\${{runner.os}}-\${{runner.arch}}-<br />sccache-\${{runner.os}}-</code> |
 
 ## Recipes
 
