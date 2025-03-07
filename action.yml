@@ -78,7 +78,7 @@ runs:
       if: ${{ inputs.disable-cargo-registry-cache != 'true' }}
       with:
         key: ${{ steps.cache-keys.outputs.registry-cache-restore-keys }}
-        restore-keys: ${{ steps.cache-keys.outputs.registry-cache-restore-keys
+        restore-keys: ${{ steps.cache-keys.outputs.registry-cache-restore-keys }}
         path: |
           ~/.cargo/registry
     - uses: actions/cache@v4
