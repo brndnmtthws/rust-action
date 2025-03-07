@@ -75,12 +75,12 @@ You can disable all of the built-in caching if you choose, refer to the
 | `disable-cargo-registry-cache` | If set to 'true', the Cargo registry cache will not be enabled. | unset |
 | `disable-cargo-target-cache` | If set to 'true', the Cargo target cache will not be enabled. | unset |
 | `enable-sccache` | If set to 'true', sccache will be enabled. | unset |
-| `target-cache-key` | The cache key to use for caching the target dirs. | `cargo-target-${{runner.os}}-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
-| `target-cache-restore-keys` | The cache restore keys to use for caching the target dirs. | `cargo-target-${{runner.os}}-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}- cargo-target-${{runner.os}}-${{ steps.rustup.outputs.toolchain }}- cargo-target-${{runner.os}}-` |
-| `registry-cache-key` | The cache key to use for caching the cargo registry. | `cargo-registry-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
-| `registry-cache-restore-keys` | The cache restore keys to use for caching the cargo registry. | `cargo-registry-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}- cargo-registry-${{ steps.rustup.outputs.toolchain }}- cargo-registry-` |
-| `sccache-cache-key` | The cache key to use for caching sccache. | `sccache-${{runner.os}}-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
-| `sccache-cache-restore-keys` | The cache restore keys to use for caching sccache. | `sccache-${{runner.os}}-${{ steps.rustup.outputs.toolchain }}-${{ steps.rustup.outputs.rustc-version }}- sccache-${{runner.os}}-${{ steps.rustup.outputs.toolchain }}- sccache-${{runner.os}}-` |
+| `target-cache-key` | The cache key to use for caching the target dirs. | `cargo-target-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
+| `target-cache-restore-keys` | The cache restore keys to use for caching the target dirs. | `cargo-target-${{runner.os}}-${{ inputs.toolchain }} cargo-target-${{runner.os}}-` |
+| `registry-cache-key` | The cache key to use for caching the cargo registry. | `cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
+| `registry-cache-restore-keys` | The cache restore keys to use for caching the cargo registry. | `cargo-registry-${{ inputs.toolchain }}- cargo-registry-` |
+| `sccache-cache-key` | The cache key to use for caching sccache. | `sccache-${{runner.os}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}` |
+| `sccache-cache-restore-keys` | The cache restore keys to use for caching sccache. | `sccache-${{runner.os}}-${{ inputs.toolchain }}- sccache-${{runner.os}}-` |
 
 ## Recipes
 
