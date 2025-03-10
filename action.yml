@@ -67,8 +67,7 @@ runs:
 
         TARGET_CACHE_RESTORE_KEYS="${{inputs.target-cache-restore-keys}}"
         DEFAULT_TARGET_CACHE_RESTORE_KEYS="cargo-target-${{runner.os}}-${{runner.arch}}-${{inputs.toolchain}}-
-        cargo-target-${{runner.os}}-${{runner.arch}}-
-        cargo-target-${{runner.os}}-"
+        cargo-target-${{runner.os}}-${{runner.arch}}-"
         echo "target-cache-restore-keys<<EOF" >> $GITHUB_OUTPUT
         echo "${TARGET_CACHE_RESTORE_KEYS:-$DEFAULT_TARGET_CACHE_RESTORE_KEYS}" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
@@ -89,9 +88,7 @@ runs:
         echo "sccache-cache-key=${SCCACHE_CACHE_KEY:-$DEFAULT_SCCACHE_CACHE_KEY}" >> $GITHUB_OUTPUT
 
         SCCACHE_CACHE_RESTORE_KEYS="${{inputs.sccache-cache-restore-keys}}"
-        DEFAULT_SCCACHE_CACHE_RESTORE_KEYS="sccache-${{runner.os}}-${{inputs.toolchain}}-
-        sccache-${{runner.os}}-${{runner.arch}}-
-        sccache-${{runner.os}}-"
+        DEFAULT_SCCACHE_CACHE_RESTORE_KEYS="sccache-${{runner.os}}-${{inputs.toolchain}}-"
         echo "sccache-cache-restore-keys<<EOF" >> $GITHUB_OUTPUT
         echo "${SCCACHE_CACHE_RESTORE_KEYS:-$DEFAULT_SCCACHE_CACHE_RESTORE_KEYS}" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
