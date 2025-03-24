@@ -99,7 +99,10 @@ runs:
         key: ${{ steps.cache-keys.outputs.registry-cache-key }}
         restore-keys: ${{ steps.cache-keys.outputs.registry-cache-restore-keys }}
         path: |
-          ~/.cargo/registry
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
     - uses: brndnmtthws/cache@v4
       name: Cache Cargo target
       if: ${{ inputs.disable-cargo-target-cache != 'true' }}
