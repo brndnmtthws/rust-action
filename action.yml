@@ -90,7 +90,6 @@ runs:
         key: ${{ steps.cache-keys.outputs.registry-cache-key }}
         restore-keys: ${{ steps.cache-keys.outputs.registry-cache-restore-keys }}
         path: |
-          ~/.cargo/bin/
           ~/.cargo/registry/index/
           ~/.cargo/registry/cache/
           ~/.cargo/git/db/
@@ -110,9 +109,6 @@ runs:
         restore-keys: ${{ steps.cache-keys.outputs.sccache-cache-restore-keys }}
         path: |
           ~/.sccache
-    - name: Ensure ~/.cargo/bin exists
-      shell: bash
-      run: mkdir -p ~/.cargo/bin
     - uses: brndnmtthws/rust-action-rustup@v1
       name: Install toolchain
       id: rustup
