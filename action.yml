@@ -111,6 +111,7 @@ runs:
         path: |
           ~/.sccache
     - name: Ensure ~/.cargo/bin exists
+      shell: bash
       run: mkdir -p ~/.cargo/bin
     - uses: brndnmtthws/rust-action-rustup@v1
       name: Install toolchain
