@@ -64,7 +64,7 @@ runs:
         echo "EOF" >> $GITHUB_OUTPUT
 
         REGISTRY_CACHE_KEY="${{inputs.registry-cache-key}}"
-        DEFAULT_REGISTRY_CACHE_KEY="cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}"
+        DEFAULT_REGISTRY_CACHE_KEY="cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/rust-toolchain.toml') }}"
         echo "registry-cache-key=${REGISTRY_CACHE_KEY:-$DEFAULT_REGISTRY_CACHE_KEY}" >> $GITHUB_OUTPUT
 
         REGISTRY_CACHE_RESTORE_KEYS="${{ inputs.registry-cache-restore-keys }}"
