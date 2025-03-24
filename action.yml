@@ -48,15 +48,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: brndnmtthws/rust-action-rustup@v1
-      name: Install toolchain
-      id: rustup
-      with:
-        toolchain: ${{ inputs.toolchain }}
-        profile: minimal
-        components: |
-          rustfmt
-          clippy
     - name: Set cache keys
       id: cache-keys
       shell: bash
@@ -119,6 +110,15 @@ runs:
         restore-keys: ${{ steps.cache-keys.outputs.sccache-cache-restore-keys }}
         path: |
           ~/.sccache
+    - uses: brndnmtthws/rust-action-rustup@v1
+      name: Install toolchain
+      id: rustup
+      with:
+        toolchain: ${{ inputs.toolchain }}
+        profile: minimal
+        components: |
+          rustfmt
+          clippy
     - uses: brndnmtthws/rust-action-cargo-binstall@v1
       name: Install sccache
       if: ${{ inputs.enable-sccache == 'true' }}
