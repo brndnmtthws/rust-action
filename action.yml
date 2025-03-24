@@ -90,6 +90,7 @@ runs:
         key: ${{ steps.cache-keys.outputs.registry-cache-key }}
         restore-keys: ${{ steps.cache-keys.outputs.registry-cache-restore-keys }}
         path: |
+          ~/.cargo/bin/
           ~/.cargo/registry/index/
           ~/.cargo/registry/cache/
           ~/.cargo/git/db/
