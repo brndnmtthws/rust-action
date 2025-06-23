@@ -82,6 +82,28 @@ You can disable all of the built-in caching if you choose, refer to the
 | `sccache-cache-key`            | The cache key to use for caching sccache.                       | `sccache-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                      |
 | `sccache-cache-restore-keys`   | The cache restore keys to use for caching sccache.              | <code>sccache-\${{runner.os}}-\${{runner.arch}}-\${{ inputs.toolchain }}-<br />sccache-\${{runner.os}}-\${{runner.arch}}-</code>          |
 
+## Outputs
+
+| Output                     | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| `cargo-registry-cache-hit` | A boolean value to indicate if cargo registry cache was hit  |
+| `cargo-target-cache-hit`   | A boolean value to indicate if cargo target cache was hit    |
+| `sccache-cache-hit`        | A boolean value to indicate if sccache cache was hit         |
+
+These outputs can be used to monitor cache effectiveness in your workflows. For example:
+
+```yaml
+- name: Setup Rust toolchain with caching
+  id: rust-setup
+  uses: brndnmtthws/rust-action@v1
+  
+- name: Report cache status
+  run: |
+    echo "Cargo registry cache hit: ${{ steps.rust-setup.outputs.cargo-registry-cache-hit }}"
+    echo "Cargo target cache hit: ${{ steps.rust-setup.outputs.cargo-target-cache-hit }}"
+    echo "Sccache cache hit: ${{ steps.rust-setup.outputs.sccache-cache-hit }}"
+```
+
 ## Recipes
 
 ### The kitchen sink: build, test, lint with Clippy, check formatting with Rustfmt, run on Ubuntu, macOS, Windows, and multiple feature flags

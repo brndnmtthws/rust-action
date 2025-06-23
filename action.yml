@@ -45,6 +45,17 @@ inputs:
     description: The cache restore keys to use for caching sccache.
     required: false
 
+outputs:
+  cargo-registry-cache-hit:
+    description: A boolean value to indicate if cargo registry cache was hit
+    value: ${{ steps.cache-cargo-registry.outputs.cache-hit }}
+  cargo-target-cache-hit:
+    description: A boolean value to indicate if cargo target cache was hit
+    value: ${{ steps.cache-cargo-target.outputs.cache-hit }}
+  sccache-cache-hit:
+    description: A boolean value to indicate if sccache cache was hit
+    value: ${{ steps.cache-sccache.outputs.cache-hit }}
+
 runs:
   using: 'composite'
   steps:
@@ -85,6 +96,7 @@ runs:
         echo "EOF" >> $GITHUB_OUTPUT
     - uses: brndnmtthws/cache@v4
       name: Cache Cargo registry
+      id: cache-cargo-registry
       if: ${{ inputs.disable-cargo-registry-cache != 'true' }}
       with:
         key: ${{ steps.cache-keys.outputs.registry-cache-key }}
@@ -95,6 +107,7 @@ runs:
           ~/.cargo/git/db/
     - uses: brndnmtthws/cache@v4
       name: Cache Cargo target
+      id: cache-cargo-target
       if: ${{ inputs.disable-cargo-target-cache != 'true' }}
       with:
         key: ${{ steps.cache-keys.outputs.target-cache-key }}
@@ -103,6 +116,7 @@ runs:
           **/target/*
     - uses: brndnmtthws/cache@v4
       name: Cache sccache local files
+      id: cache-sccache
       if: ${{ inputs.enable-sccache == 'true' }}
       with:
         key: ${{ steps.cache-keys.outputs.sccache-cache-key }}
