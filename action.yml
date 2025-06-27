@@ -113,7 +113,7 @@ runs:
         key: ${{ steps.cache-keys.outputs.target-cache-key }}
         restore-keys: ${{ steps.cache-keys.outputs.target-cache-restore-keys }}
         path: |
-          **/target/*
+          **/target/**
     - uses: brndnmtthws/cache@v4
       name: Cache sccache local files
       id: cache-sccache
