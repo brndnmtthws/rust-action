@@ -65,6 +65,28 @@ packages from [crates.io](https://crates.io/).
 You can disable all of the built-in caching if you choose, refer to the
 [Disable all caching](#disable-all-caching) recipe.
 
+### Improving cache effectiveness with file modification times
+
+When GitHub Actions checks out your repository, all files receive the current
+timestamp as their modification time (mtime). This can negatively impact
+caching effectiveness since Rust's incremental compilation relies on mtimes to
+determine which files have changed.
+
+To restore the original modification times from git history, you can use the
+[git-restore-mtime action](https://github.com/marketplace/actions/git-restore-mtime)
+before running this action:
+
+```yaml
+- uses: actions/checkout@v4
+- name: Restore modification times
+  uses: chetan/git-restore-mtime-action@v2
+- name: Setup Rust toolchain with caching
+  uses: brndnmtthws/rust-action@v1
+```
+
+This can significantly improve incremental build performance when using the
+target cache.
+
 ## Inputs
 
 | Input                          | Description                                                     | Default                                                                                                                                   |
