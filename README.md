@@ -65,6 +65,28 @@ packages from [crates.io](https://crates.io/).
 You can disable all of the built-in caching if you choose, refer to the
 [Disable all caching](#disable-all-caching) recipe.
 
+### Improving cache effectiveness with file modification times
+
+When GitHub Actions checks out your repository, all files receive the current
+timestamp as their modification time (mtime). This can negatively impact
+caching effectiveness since Rust's incremental compilation relies on mtimes to
+determine which files have changed.
+
+To restore the original modification times from git history, you can use the
+[git-restore-mtime action](https://github.com/marketplace/actions/git-restore-mtime)
+before running this action:
+
+```yaml
+- uses: actions/checkout@v4
+- name: Restore modification times
+  uses: chetan/git-restore-mtime-action@v2
+- name: Setup Rust toolchain with caching
+  uses: brndnmtthws/rust-action@v1
+```
+
+This can significantly improve incremental build performance when using the
+target cache.
+
 ## Inputs
 
 | Input                          | Description                                                     | Default                                                                                                                                   |
@@ -75,12 +97,34 @@ You can disable all of the built-in caching if you choose, refer to the
 | `disable-cargo-registry-cache` | If set to 'true', the Cargo registry cache will not be enabled. | unset                                                                                                                                     |
 | `disable-cargo-target-cache`   | If set to 'true', the Cargo target cache will not be enabled.   | unset                                                                                                                                     |
 | `enable-sccache`               | If set to 'true', sccache will be enabled.                      | unset                                                                                                                                     |
-| `target-cache-key`             | The cache key to use for caching the target dirs.               | `cargo-target-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}`                 |
+| `target-cache-key`             | The cache key to use for caching the target dirs.               | `cargo-target-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                 |
 | `target-cache-restore-keys`    | The cache restore keys to use for caching the target dirs.      | <code>cargo-target-\${{runner.os}}-\${{runner.arch}}-\${{ inputs.toolchain }}<br />cargo-target-\${{runner.os}}-\${{runner.arch}}-</code> |
-| `registry-cache-key`           | The cache key to use for caching the cargo registry.            | `cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}`                                               |
+| `registry-cache-key`           | The cache key to use for caching the cargo registry.            | `cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                                               |
 | `registry-cache-restore-keys`  | The cache restore keys to use for caching the cargo registry.   | <code>cargo-registry-\${{ inputs.toolchain }}-<br />cargo-registry-</code>                                                                |
-| `sccache-cache-key`            | The cache key to use for caching sccache.                       | `sccache-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}`                      |
+| `sccache-cache-key`            | The cache key to use for caching sccache.                       | `sccache-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                      |
 | `sccache-cache-restore-keys`   | The cache restore keys to use for caching sccache.              | <code>sccache-\${{runner.os}}-\${{runner.arch}}-\${{ inputs.toolchain }}-<br />sccache-\${{runner.os}}-\${{runner.arch}}-</code>          |
+
+## Outputs
+
+| Output                     | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| `cargo-registry-cache-hit` | A boolean value to indicate if cargo registry cache was hit  |
+| `cargo-target-cache-hit`   | A boolean value to indicate if cargo target cache was hit    |
+| `sccache-cache-hit`        | A boolean value to indicate if sccache cache was hit         |
+
+These outputs can be used to monitor cache effectiveness in your workflows. For example:
+
+```yaml
+- name: Setup Rust toolchain with caching
+  id: rust-setup
+  uses: brndnmtthws/rust-action@v1
+
+- name: Report cache status
+  run: |
+    echo "Cargo registry cache hit: ${{ steps.rust-setup.outputs.cargo-registry-cache-hit }}"
+    echo "Cargo target cache hit: ${{ steps.rust-setup.outputs.cargo-target-cache-hit }}"
+    echo "Sccache cache hit: ${{ steps.rust-setup.outputs.sccache-cache-hit }}"
+```
 
 ## Recipes
 
