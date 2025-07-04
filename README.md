@@ -97,20 +97,21 @@ target cache.
 | `disable-cargo-registry-cache` | If set to 'true', the Cargo registry cache will not be enabled. | unset                                                                                                                                     |
 | `disable-cargo-target-cache`   | If set to 'true', the Cargo target cache will not be enabled.   | unset                                                                                                                                     |
 | `enable-sccache`               | If set to 'true', sccache will be enabled.                      | unset                                                                                                                                     |
-| `target-cache-key`             | The cache key to use for caching the target dirs.               | `cargo-target-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                 |
+| `target-cache-key`             | The cache key to use for caching the target dirs.               | `cargo-target-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                                  |
 | `target-cache-restore-keys`    | The cache restore keys to use for caching the target dirs.      | <code>cargo-target-\${{runner.os}}-\${{runner.arch}}-\${{ inputs.toolchain }}<br />cargo-target-\${{runner.os}}-\${{runner.arch}}-</code> |
-| `registry-cache-key`           | The cache key to use for caching the cargo registry.            | `cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                                               |
+| `registry-cache-key`           | The cache key to use for caching the cargo registry.            | `cargo-registry-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                                                                |
 | `registry-cache-restore-keys`  | The cache restore keys to use for caching the cargo registry.   | <code>cargo-registry-\${{ inputs.toolchain }}-<br />cargo-registry-</code>                                                                |
-| `sccache-cache-key`            | The cache key to use for caching sccache.                       | `sccache-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                      |
+| `sccache-cache-key`            | The cache key to use for caching sccache.                       | `sccache-${{runner.os}}-${{runner.arch}}-${{ inputs.toolchain }}-${{ hashFiles('**/Cargo.lock') }}`                                       |
 | `sccache-cache-restore-keys`   | The cache restore keys to use for caching sccache.              | <code>sccache-\${{runner.os}}-\${{runner.arch}}-\${{ inputs.toolchain }}-<br />sccache-\${{runner.os}}-\${{runner.arch}}-</code>          |
+| `target-dir`                   | The glob pattern for cargo target directories to cache.         | `**/target/**`                                                                                                                            |
 
 ## Outputs
 
-| Output                     | Description                                                   |
-| -------------------------- | ------------------------------------------------------------- |
-| `cargo-registry-cache-hit` | A boolean value to indicate if cargo registry cache was hit  |
-| `cargo-target-cache-hit`   | A boolean value to indicate if cargo target cache was hit    |
-| `sccache-cache-hit`        | A boolean value to indicate if sccache cache was hit         |
+| Output                     | Description                                                 |
+| -------------------------- | ----------------------------------------------------------- |
+| `cargo-registry-cache-hit` | A boolean value to indicate if cargo registry cache was hit |
+| `cargo-target-cache-hit`   | A boolean value to indicate if cargo target cache was hit   |
+| `sccache-cache-hit`        | A boolean value to indicate if sccache cache was hit        |
 
 These outputs can be used to monitor cache effectiveness in your workflows. For example:
 
