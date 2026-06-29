@@ -107,7 +107,7 @@ runs:
         echo "sccache-cache-restore-keys<<EOF" >> $GITHUB_OUTPUT
         echo "${SCCACHE_CACHE_RESTORE_KEYS:-$DEFAULT_SCCACHE_CACHE_RESTORE_KEYS}" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
-    - uses: actions/cache@v5
+    - uses: actions/cache@v6
       name: Cache Cargo registry
       id: cache-cargo-registry
       if: ${{ inputs.disable-cargo-registry-cache != 'true' }}
@@ -118,7 +118,7 @@ runs:
           ~/.cargo/registry/index/
           ~/.cargo/registry/cache/
           ~/.cargo/git/db/
-    - uses: actions/cache@v5
+    - uses: actions/cache@v6
       name: Cache Cargo target
       id: cache-cargo-target
       if: ${{ inputs.disable-cargo-target-cache != 'true' }}
@@ -126,7 +126,7 @@ runs:
         key: ${{ steps.cache-keys.outputs.target-cache-key }}
         restore-keys: ${{ steps.cache-keys.outputs.target-cache-restore-keys }}
         path: ${{ inputs.target-dir }}
-    - uses: actions/cache@v5
+    - uses: actions/cache@v6
       name: Cache sccache local files
       id: cache-sccache
       if: ${{ inputs.enable-sccache == 'true' }}
